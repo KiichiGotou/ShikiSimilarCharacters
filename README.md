@@ -1,0 +1,2 @@
+# ShikiSimilarCharacters
+Поиск похожих персонажей
