@@ -88,14 +88,21 @@ void getSimilarCharacters(const vector<uint32_t> ids, const uint32_t limit) {
 						while ((pos < line.size()) && (line.at(pos++) != ','));
 
 						uint32_t rel_pop = getNumFromString<uint32_t>(line, pos, '}');
-						SPoint<uint32_t, double> new_one;
 
-						new_one.x = ch_id;
-						new_one.y = static_cast<double>(rel_pop) /
-							static_cast<double>(
-								findAbsPop(id, ch_id, abs_pop) - rel_pop
+						if (rel_pop > 5) {
+							SPoint<uint32_t, double> new_one;
+
+							new_one.x = ch_id;
+							new_one.y = static_cast<double>(rel_pop) /
+								static_cast<double>(
+									findAbsPop(id, ch_id, abs_pop) - rel_pop
 								);
-						sim.push_back(new_one);
+
+							if (new_one.y > 0.01) {
+								new_one.y *= log(rel_pop);
+								sim.push_back(new_one);
+							}
+						}
 					}
 				}
 				else if (ch_id == id) {
@@ -107,15 +114,21 @@ void getSimilarCharacters(const vector<uint32_t> ids, const uint32_t limit) {
 							ch_id = getNumFromString<uint32_t>(line, ++pos, ',');
 
 							uint32_t rel_pop = getNumFromString<uint32_t>(line, ++pos, '}');
-							SPoint<uint32_t, double> new_one;
 
-							new_one.x = ch_id;
-							new_one.y = static_cast<double>(rel_pop) /
-								static_cast<double>(
-									findAbsPop(id, ch_id, abs_pop) - rel_pop
+							if (rel_pop > 5) {
+								SPoint<uint32_t, double> new_one;
+
+								new_one.x = ch_id;
+								new_one.y = static_cast<double>(rel_pop) /
+									static_cast<double>(
+										findAbsPop(id, ch_id, abs_pop) - rel_pop
 									);
 
-							sim.push_back(new_one);
+								if (new_one.y > 0.01) {
+									new_one.y *= log(rel_pop);
+									sim.push_back(new_one);
+								}
+							}
 						}
 					}
 				}
